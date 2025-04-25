@@ -39,8 +39,8 @@ RepsReview/
 ├── assets/
 │ └── reps-webpreview.png
 ├── src/
-│ ├── index.html
 │ └── representations-across-the-mind-sciences.ipynb
+├── index.html
 ├── LICENSE
 ├── README.md
 └── requirements.txt
@@ -51,8 +51,9 @@ RepsReview/
   - **purple-night-nolabels.png**: Project emblem
 
 - **src/**: Contains source code for the project.
-  - **index.html**: Single file for the website
-  - **representations-across-the-mind-sciences.ipynb**: Notebook containing all "final" plots, as well as a graveyard of past iterations. 
+  - **representations-across-the-mind-sciences.ipynb**: Notebook containing all "final" plots. 
+
+- **index.html**: Single file for the website
 
 - **LICENSE**: The license under which the project is distributed.
 
