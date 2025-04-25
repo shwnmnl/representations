@@ -48,7 +48,7 @@ RepsReview/
 
 ## Detailed Descriptions
 - **assets/**: Contains image files used for this README file.
-  - **purple-night-nolabels.png**: Project emblem
+  - **reps-webpreview.png**: Website preview
 
 - **src/**: Contains source code for the project.
   - **representations-across-the-mind-sciences.ipynb**: Notebook containing all "final" plots. 
