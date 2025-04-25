@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Representations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+        /* ----------  1  CSS variables and global reset  ---------- */
+        :root{
+        --bg-light:#f9fafb;
+        --bg-card :#ffffff;
+        --accent  :#6366f1;
+        --text    :#111827;
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0;}
+
+        html{scroll-behavior:smooth;}
+
+        body{
+        font-family:'Inter',sans-serif;
+        color:var(--text);
+        background:var(--bg-light);
+        line-height:1.6;
+        overflow-x:hidden;
+        scroll-snap-type:y mandatory;
+        background-image: linear-gradient(135deg,
+                    rgba(99, 241, 142, 0.12) 0%,      
+                    rgba(25, 58, 179, 0.12) 60%,    
+                    rgba(255,255,255,0   ) 100%);  
+        background-attachment:fixed;  
+        }
+
+        /* ----------  2  Generic layout helpers  ---------- */
+        section{
+        width:100%;
+        min-height:100vh;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        padding:24px;
+        scroll-snap-align:start;
+        }
+
+        /* ----------  3  Abstract block  ---------- */
+        #abstract{
+        background:var(--bg-card);
+        overflow-y:auto;
+        padding-top:200px;
+        text-align:center;
+        }
+
+        #abstract h2{
+        font-size:clamp(1.25rem,4vw,2rem);
+        font-weight:700;
+        margin-bottom:20px;
+        max-width:40ch;
+        }
+
+        #abstract h4,
+        #abstract h5{
+        font-weight:600;
+        margin-bottom:20px;
+        }
+
+        #abstract p{
+        max-width:70ch;
+        margin:0 auto 32px;
+        }
+
+        /* ----------  4  Typography helpers  ---------- */
+        .tagline{
+        font-style:italic;
+        font-size:1.25rem;
+        color:#555;
+        letter-spacing:.5px;
+        margin-bottom:.4rem;
+        max-width:50ch;
+        margin-inline:auto;
+        justify-content: center;
+        }
+
+        .tagline2{
+        font-style:italic;
+        font-size:1.1rem;
+        color:#555;
+        letter-spacing:.5px;
+        margin-bottom:0;
+        max-width:50ch;
+        margin-inline:auto;
+        margin-top:0;
+        }
+        #abstract .tagline{        /*  = ID + class  → same weight as #abstract p  */
+        margin-block: 0 1.5rem;   /* top 0, bottom 0.4 rem ≈ 6 px   */
+        }
+
+        #abstract .tagline2{       /* second line */
+        margin-block: 0 .9rem;   /* top 0, bottom 0.9 rem ≈ 14 px (gap before buttons) */
+        }
+        /* ----------  5  Buttons  ---------- */
+        .btn{
+        display:inline-block;
+        padding:.75em 1.8em;
+        background:var(--accent);
+        color:#fff;
+        border:none;
+        border-radius:9999px;
+        font-weight:600;
+        text-decoration:none;
+        transition:transform .15s ease,box-shadow .15s ease;
+        }
+        .btn:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 16px rgba(99,102,241,.25);
+        }
+
+        .btn-alt{
+        background:#eef2ff;
+        color:var(--accent);
+        }
+        .btn-alt:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 16px rgba(99,102,241,.15);
+        }
+
+        /* row that holds the buttons */
+        .cta-row{
+        display:flex;
+        justify-content:center;
+        gap:clamp(.75rem,2vw,1.25rem);
+        flex-wrap:wrap;          /* stacks on narrow screens */
+        margin:1.5rem auto 0;
+        max-width:100%;
+        }
+
+        /* ----------  6  Divider  ---------- */
+        .divider{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:30%;
+        margin:2rem auto .75rem;
+        }
+        .divider::before,
+        .divider::after{
+        content:"";
+        flex:1;
+        height:1px;
+        background:linear-gradient(to right,transparent,#6b6b6b);
+        }
+        .divider::after{
+        background:linear-gradient(to left,transparent,#6b6b6b);
+        }
+        .divider span{
+        width:6px;
+        height:6px;
+        background:#6b6b6b;
+        transform:rotate(45deg);
+        margin:0 1rem;
+        }
+
+        /* ----------  7  Collapsible summary  ---------- */
+        .summary-box{
+        width:100%;
+        max-width:65ch;
+        text-align:justify;
+        }
+        .summary-box summary{
+        cursor:pointer;
+        font-weight:600;
+        margin-bottom:.5rem;
+        text-align:center;
+        }
+        .summary-box[open] summary{margin-bottom:1rem;}
+
+        .hidden      {opacity:0;max-height:0;overflow:hidden;transition:opacity .4s ease,max-height .4s ease;}
+        .show-summary{opacity:1;max-height:1000px;}
+
+        /* when summary is open, pull buttons closer */
+        #summary-box.show-summary + .cta-row{margin-top:1.25rem;transition:margin .3s ease;}
+
+        /* ----------  8  Alert card  ---------- */
+        .alert{
+        background:#eef2ff;
+        border-left:4px solid var(--accent);
+        border-radius:12px;
+        padding:18px 24px;
+        max-width:800px;
+        margin:0 auto;
+        text-align:center;
+        box-shadow:0 4px 12px rgba(0,0,0,.04);
+        }
+
+        /* ----------  9  Walk-through section  ---------- */
+        #walkthrough{
+        background:linear-gradient(180deg,#ffffff 0%,#f0f1f5 100%);
+        gap:48px;
+        }
+
+        .step{
+        width:100%;
+        max-width:1200px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:32px;
+        }
+        .step:nth-child(even){flex-direction:row-reverse;}
+
+        .step .text-box{flex:1;}
+        .step .text-box h3{font-size:1.5rem;font-weight:700;margin-bottom:12px;}
+        .step .text-box p {font-size:1rem;}
+
+        .step .plot-box{
+        flex:1;
+        min-height:300px;
+        background:#d1d5db;
+        border-radius:16px;
+        box-shadow:0 10px 25px rgba(0,0,0,.05);
+        }
+
+        /* ---------- 10  Animation utility  ---------- */
+        .fade-in{opacity:0;animation:fadeIn 1s ease forwards;}
+        @keyframes fadeIn{to{opacity:1;}}
+
+        /* ---------- 11  Responsive tweaks  ---------- */
+        @media (max-width:1024px){
+        .step{flex-direction:column;}
+        .step:nth-child(even){flex-direction:column;}
+        }
+
+        @media (max-width:768px){
+        #abstract{padding-top:120px;}          /* move title higher on phones */
+        #abstract h2{font-size:1.4rem;}        /* slightly smaller title */
+        .tagline {font-size:1rem;}
+        .tagline2{font-size:.95rem;}
+        .divider{width:60%;}
+        .alert{max-width:90%;}
+        }
+        section{background:transparent !important;}
+  </style>
+</head>
+<body>
+  <!-- Abstract section -->
+  <section id="abstract" class="fade-in">
+    <h2>From Deep Learning to Depth Psychology:<br> A Review and Roadmap for Representation Learning Across the Mind Sciences</h2>
+    <h4>Shawn Manuel</h4>
+
+    <!-- <div class="divider"><span></span></div> -->
+    <br>
+    <p class="tagline">Can AI systems truly helps us learn "better representations" for understanding the mind?</p>
+    <p class="tagline2"><strong>Probably, but we'll need to get clear on what they are, what they are for, and how different incentive structures shape them. </strong></p>
+    
+    <div id="summary-box" class="summary-box hidden">
+        <p>The study of representations — <i>mental constructs that encode, process, and structure information</i> — has long been central to cognitive science, yet efforts to improve these frameworks often face conceptual and institutional pitfalls. 
+            This review examines how diverse scientific traditions, including cognitive maps, schemas, and object relations, have approached the problem of representation. We argue that these frameworks are not merely reflections of reality but adaptive interfaces shaped by disciplinary priorities and scientific goals. 
+            Drawing on insights from NeuroAI and computational psychiatry, we highlight the risks of conflating engineering success with theoretical insight and caution against the tendency to privilege "mechanistic" models as inherently superior.
+            We further explore how historical cycles of scientific hype, such as the rise and fall of cybernetics, offer a cautionary tale for contemporary efforts to unify cognitive science under AI-driven paradigms. 
+            By revisiting overlooked contributions, including insights from psychoanalysis and speculative theorization, we emphasize the value of integrating diverse perspectives, even those that challenge mainstream scientific norms. 
+            We propose that fostering better representations requires a pluralistic mindset that embraces uncertainty, integrates marginalized frameworks, and encourages scientists to experiment beyond conventional boundaries. 
+            Ultimately, this review aims to provide researchers with conceptual resources to engage more reflexively with representations in their own work, recognizing that the goal is not to identify a single “true” framework, but to develop flexible, context-sensitive tools that support scientific inquiry across disciplines.
+        </p>
+    </div>
+    <div class="divider"><span></span></div>
+    <div class="cta-row">
+        <a href="" class="btn btn-alt">Paper</a>
+        <a href="#" id="toggle-summary" class="btn">Summary</a>
+        <a href="https://github.com/shwnmnl/representations" class="btn btn-alt">Code</a>
+      </div>
+    <!-- <br> -->
+    <!-- <a href="#walkthrough" class="btn">Walk me through it</a> -->
+    <div class="alert" style="margin-top:48px;">
+      <strong>Instructions.</strong>This demo allows you to interactively explore the <i>Key Milestones in Neuroscience, Psychology and AI (1940-2025)</i> presented in Figure 2. It is best viewed on a desktop or laptop computer for optimal experience. 
+    </div>
+    <br>
+    <br>
+    <div class="divider"><span></span></div>
+  </section>
+    <!-- Walkthrough section -->
+    <!-- <section id="walkthrough" class="fade-in">
+        <div class="step">
+        <div class="text-box">
+            <h3>The power of numbers</h3>
+            <p>Simply put, AI is useful because it uses math to produce very powerful, or expressive, representations (by which I mean numbers). By translating huge amounts of data from the internet into numbers and crunching them in ever-creative ways, we've gone from <i>[insert somewhat recent groundbreaking capacity]</i> to <i>[latest groundbreaking capacity]</i> in the past <i>[amount] [time units]</i>.</p>
+        </div>
+        <div class="plot-box"></div>
+        </div>
+
+        <div class="step">
+        <div class="text-box">
+            <h3>The promise of a new language</h3>
+            <p>The AI revolution has resurfaced a historical promise that other intellectual movements once made: that of providing a "new language for expressing hypotheses". This promise is not new, but it is now more urgent than ever. The rise of AI has made it possible to generate and analyze vast amounts of data, leading to new insights and discoveries. However, this also raises questions about the nature of representation and the role of theory in scientific inquiry.</p>
+
+            </p>
+        </div>
+        <div class="plot-box"></div>
+        </div>
+
+        <div class="step">
+        <div class="text-box">
+            <h3>Paying our cybernetic dues</h3>
+            <p>The cybernetics movement played an important role in legitimizing the concept of internal reprsentations themselves; alongside the cognitive revolution near the mid-20th century. It also promised to unify disparate sciences through a new language, that of feedback and control.</p>
+        </div>
+        <div class="plot-box"></div>
+        </div>
+
+        <div class="step">
+            <div class="text-box">
+            <h3>Paying our cybernetic dues</h3>
+            <p>Detail the ability of embeddings to capture valence, arousal, and transdiagnostic mental health factors. Showcase quantitative evaluation.</p>
+            </div>
+            <div class="plot-box"></div>
+        </div>
+    </section> -->
+    <script>
+        const btn   = document.getElementById('toggle-summary');
+        const box   = document.getElementById('summary-box');
+      
+        btn.addEventListener('click', e => {
+          e.preventDefault();                  // keep the page from jumping to top
+          box.classList.toggle('show-summary');/* reveal or hide text */
+        });
+      </script>
+</body>
+</html>
+<iframe src='https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=v2:2PACX-1vT3luhSAcNBZCCjyMr_2NuC5smjPs4ethdPBXw2_6cKmFgiWcKhZlf88FLIEIJYw2M10nuNHoBhyCOt&font=Fjalla-Average&lang=en&initial_zoom=2&height=650' width='100%' height='650' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0'></iframe>
+
+
+
+
+
+
+
